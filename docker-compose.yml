@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  backend:
+    build: .
+    container_name: kittygram_trips_backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./db.sqlite3:/app/db.sqlite3
+      - static_volume:/app/static
+      - media_volume:/app/media
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+
+volumes:
+  static_volume:
+  media_volume:
