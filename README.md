@@ -37,6 +37,8 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
+Репозиторий: https://github.com/Aizenhaim/kittygram_trips
+
 После запуска доступно:
 - API: http://127.0.0.1:8000/api/
 - Swagger UI: http://127.0.0.1:8000/api/docs/
