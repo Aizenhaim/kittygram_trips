@@ -1,0 +1,428 @@
+{
+	"info": {
+		"name": "Kittygram Trips API",
+		"description": "Коллекция запросов для проверки API «Кото-путешествия» (тема 23)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		},
+		{
+			"key": "token_vasilii",
+			"value": "64963b4cb8ae96eb93b2a8c11e98e80223ff2fc1",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Аутентификация",
+			"item": [
+				{
+					"name": "Получить токен",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"vasilii\",\n  \"password\": \"test1234\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/token/login/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "token", "login", ""]
+						},
+						"description": "Получить токен авторизации. Вернёт auth_token."
+					},
+					"response": []
+				},
+				{
+					"name": "Регистрация нового пользователя",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"newuser\",\n  \"password\": \"newpass123\",\n  \"email\": \"newuser@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/users/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "users", ""]
+						},
+						"description": "Зарегистрировать нового пользователя."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Коты",
+			"item": [
+				{
+					"name": "Список котов",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cats/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "cats", ""]
+						},
+						"description": "Получить список всех котов. Доступно без авторизации."
+					},
+					"response": []
+				},
+				{
+					"name": "Создать кота",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"},
+							{"key": "Authorization", "value": "Token {{token_vasilii}}"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Тихон\",\n  \"color\": \"black\",\n  \"birth_year\": 2021\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/cats/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "cats", ""]
+						},
+						"description": "Создать нового кота. Владелец устанавливается автоматически."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Поездки",
+			"item": [
+				{
+					"name": "Список поездок",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/trips/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", ""]
+						},
+						"description": "Список всех поездок с пагинацией. Доступно без авторизации."
+					},
+					"response": []
+				},
+				{
+					"name": "Список поездок — фильтр по статусу",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/trips/?status=active",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", ""],
+							"query": [
+								{"key": "status", "value": "active"}
+							]
+						},
+						"description": "Фильтрация поездок по статусу (planned / active / completed)."
+					},
+					"response": []
+				},
+				{
+					"name": "Список поездок — фильтр по коту",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/trips/?cat=1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", ""],
+							"query": [
+								{"key": "cat", "value": "1"}
+							]
+						},
+						"description": "Фильтрация поездок по ID кота."
+					},
+					"response": []
+				},
+				{
+					"name": "Детали поездки (с остановками)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/trips/2/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", "2", ""]
+						},
+						"description": "Получить детали поездки, включая все остановки."
+					},
+					"response": []
+				},
+				{
+					"name": "Создать поездку",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"},
+							{"key": "Authorization", "value": "Token {{token_vasilii}}"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cat\": 1,\n  \"title\": \"Поход в ветклинику\",\n  \"description\": \"Плановый визит к ветеринару\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/trips/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", ""]
+						},
+						"description": "Создать новую поездку. Статус по умолчанию: planned."
+					},
+					"response": []
+				},
+				{
+					"name": "Создать поездку — ошибка (чужой кот)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"},
+							{"key": "Authorization", "value": "Token {{token_vasilii}}"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cat\": 999,\n  \"title\": \"Тест ошибки\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/trips/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", ""]
+						},
+						"description": "Ошибка 400: кот не существует или чужой."
+					},
+					"response": []
+				},
+				{
+					"name": "Начать поездку (start)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Token {{token_vasilii}}"}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/trips/1/start/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", "1", "start", ""]
+						},
+						"description": "Кастомное действие: начать поездку. Статус: planned → active."
+					},
+					"response": []
+				},
+				{
+					"name": "Начать поездку — ошибка (уже активна)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Token {{token_vasilii}}"}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/trips/2/start/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", "2", "start", ""]
+						},
+						"description": "Ошибка 400: нельзя начать уже активную поездку."
+					},
+					"response": []
+				},
+				{
+					"name": "Завершить поездку (complete)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Token {{token_vasilii}}"}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/trips/2/complete/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", "2", "complete", ""]
+						},
+						"description": "Кастомное действие: завершить поездку. Статус: active → completed."
+					},
+					"response": []
+				},
+				{
+					"name": "Завершить поездку — ошибка (нет остановок)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Token {{token_vasilii}}"}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/trips/1/complete/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", "1", "complete", ""]
+						},
+						"description": "Ошибка 400: нельзя завершить поездку без остановок (или со статусом не active)."
+					},
+					"response": []
+				},
+				{
+					"name": "Редактировать поездку",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"},
+							{"key": "Authorization", "value": "Token {{token_vasilii}}"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Летний отпуск в Сочи (обновлено)\",\n  \"description\": \"Расширенное описание поездки к морю\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/trips/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", "1", ""]
+						},
+						"description": "Частичное обновление поездки. Только для владельца."
+					},
+					"response": []
+				},
+				{
+					"name": "Удалить поездку",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{"key": "Authorization", "value": "Token {{token_vasilii}}"}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/trips/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", "1", ""]
+						},
+						"description": "Удалить поездку. Только для владельца. Вернёт 204 No Content."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Остановки",
+			"item": [
+				{
+					"name": "Список остановок поездки",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/trips/2/stops/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", "2", "stops", ""]
+						},
+						"description": "Получить все остановки поездки с пагинацией."
+					},
+					"response": []
+				},
+				{
+					"name": "Добавить остановку",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"},
+							{"key": "Authorization", "value": "Token {{token_vasilii}}"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Парк отдыха\",\n  \"description\": \"Прогулка в парке\",\n  \"order\": 4,\n  \"latitude\": 55.751244,\n  \"longitude\": 37.618423\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/trips/2/stops/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", "2", "stops", ""]
+						},
+						"description": "Добавить остановку к активной поездке."
+					},
+					"response": []
+				},
+				{
+					"name": "Добавить остановку — ошибка (завершённая поездка)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"},
+							{"key": "Authorization", "value": "Token {{token_vasilii}}"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Новая остановка\",\n  \"order\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/trips/2/stops/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", "2", "stops", ""]
+						},
+						"description": "Ошибка 400: нельзя добавить остановку к завершённой поездке. Сначала выполните 'complete' для поездки 2."
+					},
+					"response": []
+				},
+				{
+					"name": "Детали остановки",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/trips/2/stops/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", "2", "stops", "1", ""]
+						},
+						"description": "Получить детали одной остановки."
+					},
+					"response": []
+				},
+				{
+					"name": "Обновить остановку",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"},
+							{"key": "Authorization", "value": "Token {{token_vasilii}}"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"Долгая остановка на заправке — 30 минут\",\n  \"latitude\": 55.800,\n  \"longitude\": 37.650\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/trips/2/stops/1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", "2", "stops", "1", ""]
+						},
+						"description": "Обновить данные остановки. Только для владельца поездки."
+					},
+					"response": []
+				},
+				{
+					"name": "Удалить остановку",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{"key": "Authorization", "value": "Token {{token_vasilii}}"}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/trips/2/stops/3/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "trips", "2", "stops", "3", ""]
+						},
+						"description": "Удалить остановку. Вернёт 204 No Content."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
