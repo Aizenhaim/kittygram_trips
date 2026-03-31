@@ -43,7 +43,7 @@ python manage.py runserver
 - API: http://127.0.0.1:8000/api/
 - Swagger UI: http://127.0.0.1:8000/api/docs/
 - Redoc: http://127.0.0.1:8000/api/redoc/
-- Панель администратора: http://127.0.0.1:8000/admin/
+- Панель администратора: http://127.0.0.1:8000/admin/ (логин: `admin`, пароль: `admin123`)
 
 ---
 
