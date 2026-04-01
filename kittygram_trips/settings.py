@@ -123,7 +123,7 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-DJOSER = {'LOGIN_FIELD': 'email', 'SERIALIZERS': {}}
+DJOSER = {'LOGIN_FIELD': 'username', 'SERIALIZERS': {}}
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Kittygram Trips API',
