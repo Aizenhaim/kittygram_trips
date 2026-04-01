@@ -3,18 +3,9 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-COLOR_CHOICES = [
-    ('black', 'Черный'),
-    ('white', 'Белый'),
-    ('orange', 'Рыжий'),
-    ('gray', 'Серый'),
-    ('mixed', 'Смешанный'),
-]
-
-
 class Cat(models.Model):
     name = models.CharField(max_length=256, verbose_name='Имя кота')
-    color = models.CharField(max_length=16, choices=COLOR_CHOICES, verbose_name='Окрас')
+    color = models.CharField(max_length=16, verbose_name='Окрас')
     birth_year = models.PositiveIntegerField(verbose_name='Год рождения')
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='cats', verbose_name='Владелец'
