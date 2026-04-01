@@ -22,6 +22,20 @@
 			"item": [
 				{
 					"name": "Получить токен",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json = pm.response.json();",
+									"if (json.auth_token) {",
+									"    pm.collectionVariables.set('token_vasilii', json.auth_token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -36,7 +50,7 @@
 							"host": ["{{base_url}}"],
 							"path": ["api", "auth", "token", "login", ""]
 						},
-						"description": "Получить токен авторизации. Вернёт auth_token."
+						"description": "Получить токен авторизации. Токен сохраняется в переменную token_vasilii автоматически."
 					},
 					"response": []
 				},
